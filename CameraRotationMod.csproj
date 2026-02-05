@@ -1,66 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>CameraRotationMod</RootNamespace>
+    <AssemblyName>CameraRotationMod</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- BepInEx -->
     <Reference Include="BepInEx">
-      <HintPath>References\BepInEx.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-
-    <!-- EFT Assemblies -->
-    <Reference Include="Assembly-CSharp">
-      <HintPath>References\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-
-    <!-- Unity -->
-    <Reference Include="UnityEngine">
-      <HintPath>References\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>References\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>References\UnityEngine.InputLegacyModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-
-    <!-- Comfort -->
-    <Reference Include="Comfort">
-      <HintPath>References\Comfort.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-
-    <!-- SPT -->
-    <Reference Include="SPT.Reflection">
-      <HintPath>References\spt-reflection.dll</HintPath>
+      <HintPath>..\..\BepInEx\core\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
 
     <!-- Harmony -->
     <Reference Include="0Harmony">
-      <HintPath>References\0Harmony.dll</HintPath>
+      <HintPath>..\..\BepInEx\core\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
 
-    <!-- Sirenix -->
-    <Reference Include="Sirenix.Serialization">
-      <HintPath>References\Sirenix.Serialization.dll</HintPath>
+    <!-- SPT -->
+    <Reference Include="spt-common">
+      <HintPath>..\..\BepInEx\plugins\spt\spt-common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="spt-reflection">
+      <HintPath>..\..\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <!-- EFT Assemblies -->
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <!-- Unity -->
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
 
     <!-- Animation System -->
     <Reference Include="AnimationSystem.Types">
-      <HintPath>References\AnimationSystem.Types.dll</HintPath>
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\AnimationSystem.Types.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <!-- Comfort -->
+    <Reference Include="Comfort">
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <!-- Sirenix -->
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>..\..\EscapeFromTarkov_Data\Managed\Sirenix.Serialization.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+
+  <!-- Copy to plugins folder after build -->
+  <Target Name="CopyToPlugins" AfterTargets="Build">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="..\..\BepInEx\plugins\" />
+  </Target>
 </Project>
