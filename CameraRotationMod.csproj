@@ -4,8 +4,8 @@
     <TargetFramework>net471</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>CameraRotationMod</RootNamespace>
-    <AssemblyName>CameraRotationMod</AssemblyName>
+    <RootNamespace>CameraRotationMod SPT 3.11</RootNamespace>
+    <AssemblyName>shwngFpsCameraStances3</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,9 +35,9 @@
       <Private>False</Private>
     </Reference>
 
-    <!-- EFT Assemblies -->
+    <!-- EFT Assemblies - Using publicized version with readable class names -->
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>References\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
 

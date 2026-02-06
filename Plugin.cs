@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CameraRotationMod;
 
-[BepInPlugin("shwng.camerarotation", "Camera Rotation & Position Mod", "1.0.0")]
+[BepInPlugin("shwng.camerarotation", "shwng.FpsCameraStances", "0.9.9")]
 public class Plugin : BaseUnityPlugin
 {
     public static new ManualLogSource Logger;
@@ -83,6 +83,12 @@ public class Plugin : BaseUnityPlugin
     public static ConfigEntry<int> _TacSprintLengthLimit;
     public static ConfigEntry<float> _TacSprintErgoLimit;
 
+    // FOV Settings
+    private const string FOVSettings = "Field of View";
+    public static ConfigEntry<bool> _FOVExpandEnabled;
+    public static ConfigEntry<int> _FOVMinRange;
+    public static ConfigEntry<int> _FOVMaxRange;
+
     private const string Positions = "Positions";
     public static ConfigEntry<float> _ForwardBackwardOffset; // Z-axis
     public static ConfigEntry<float> _UpDownOffset;          // Y-axis
@@ -104,6 +110,8 @@ public class Plugin : BaseUnityPlugin
         // Enable patches
         new PlayerSpringPatch().Enable(); // Handles camera position
         new SpringGetPatch().Enable(); // Handles stance rotation/position transitions
+        new FOVSliderPatch().Enable(); // Extends FOV slider range in settings
+        new FOVClampPatch().Enable(); // Allows FOV values outside default 50-75 range
 
         // Configuration settings
         _PositionEnabled = Config.Bind(
@@ -416,7 +424,7 @@ public class Plugin : BaseUnityPlugin
         _Stance3HandsRollRotation = Config.Bind(
             Stance3HandsRotations,
             "Stance 3 Hands Roll (Z-Axis)",
-            15f,
+            0f,
             new ConfigDescription("Stance 3 hands/arms roll rotation in degrees (weapon cant)",
             new AcceptableValueRange<float>(-45f, 45f),
             new ConfigurationManagerAttributes { Order = 1 }));
@@ -440,7 +448,7 @@ public class Plugin : BaseUnityPlugin
         _Stance3HandsSidewaysOffset = Config.Bind(
             Stance3HandsPositions,
             "Stance 3 Hands Sideways Offset",
-            0.04f,
+            0f,
             new ConfigDescription("Stance 3 hands/weapon position left/right (positive = right)",
             new AcceptableValueRange<float>(-0.5f, 0.5f),
             new ConfigurationManagerAttributes { Order = 1 }));
@@ -484,6 +492,31 @@ public class Plugin : BaseUnityPlugin
             new ConfigDescription("Minimum weapon ergonomics to allow tac sprint animation. Default: 35",
             new AcceptableValueRange<float>(0f, 100f),
             new ConfigurationManagerAttributes { IsAdvanced = true, Order = 21 }));
+
+        // FOV Settings
+        _FOVExpandEnabled = Config.Bind(
+            FOVSettings,
+            "Enable Expanded FOV Range",
+            false,
+            new ConfigDescription("Allows extending the FOV slider beyond the default 50-75 range",
+            null,
+            new ConfigurationManagerAttributes { Order = 3 }));
+
+        _FOVMinRange = Config.Bind(
+            FOVSettings,
+            "Minimum FOV",
+            20,
+            new ConfigDescription("Minimum FOV value. Default game minimum is 50",
+            new AcceptableValueRange<int>(1, 50),
+            new ConfigurationManagerAttributes { Order = 2 }));
+
+        _FOVMaxRange = Config.Bind(
+            FOVSettings,
+            "Maximum FOV",
+            150,
+            new ConfigDescription("Maximum FOV value. Default game maximum is 75",
+            new AcceptableValueRange<int>(75, 170),
+            new ConfigurationManagerAttributes { Order = 1 }));
 
         // Initialize StanceManager
         StanceManager.Initialize(_StanceToggleKey);

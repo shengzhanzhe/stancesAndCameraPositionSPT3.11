@@ -36,6 +36,12 @@ Create up to **3 unique weapon ready positions**, each with:
 - Customizable ADS hand positions and rotations
 - Adjustable transition speed for smooth or snappy feel
 
+### Field of View Control
+- Expand the FOV slider beyond the default 50-75 range
+- Configurable minimum FOV (down to 1)
+- Configurable maximum FOV (up to 170)
+- Enable/disable independently from other features
+
 ### Fully Configurable
 - All settings adjustable in-game via **BepInEx Configuration Manager** (F1)
 - No file editing required - tweak values and see changes instantly
@@ -73,6 +79,13 @@ Each stance (1, 2, 3) has:
 - Weight limits (standard and bullpup weapons)
 - Length limit (inventory cells)
 - Ergonomics minimum requirement
+
+### Field of View Settings
+| Option | Default | Description |
+|--------|---------|-------------|
+| Enable Expanded FOV Range | false | Allow FOV values outside 50-75 |
+| Minimum FOV | 20 | Lowest FOV value (1-50) |
+| Maximum FOV | 150 | Highest FOV value (75-170) |
 
 ## Building from Source
 
