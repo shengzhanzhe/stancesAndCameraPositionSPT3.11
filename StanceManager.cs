@@ -318,6 +318,14 @@ namespace CameraRotationMod
 
             var player = gameWorld.MainPlayer;
             
+            // Early check: if tac sprint is active but player is no longer holding firearm
+            // (e.g., switched to consumables/melee), immediately disable tac sprint
+            if (_isTacSprintActive && !IsHoldingFirearm())
+            {
+                DisableTacSprint(player);
+                return;
+            }
+            
             // Check if player is aiming - CRITICAL for preventing stuck sprint
             bool isAiming = player.ProceduralWeaponAnimation?.IsAiming ?? false;
             
@@ -388,7 +396,7 @@ namespace CameraRotationMod
         }
 
         /// <summary>
-        /// Disable tac sprint animation - reset to actual weapon size
+        /// Disable tac sprint animation - reset to actual weapon size or default
         /// </summary>
         private static void DisableTacSprint(Player player)
         {
@@ -397,8 +405,13 @@ namespace CameraRotationMod
                 // Get the actual weapon width from its item dimensions
                 float actualWeaponSize = (float)fc.Item.CalculateCellSize().X;
                 player.BodyAnimatorCommon.SetFloat(PlayerAnimator.WEAPON_SIZE_MODIFIER_PARAM_HASH, actualWeaponSize);
-                _isTacSprintActive = false;
             }
+            else
+            {
+                // Not holding a firearm (consumables, melee, etc.) - reset to default 1f
+                player.BodyAnimatorCommon.SetFloat(PlayerAnimator.WEAPON_SIZE_MODIFIER_PARAM_HASH, 1f);
+            }
+            _isTacSprintActive = false;
         }
 
         /// <summary>
