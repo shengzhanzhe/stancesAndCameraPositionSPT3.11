@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CameraRotationMod.Patches
 {
     /// <summary>
-    /// Patch to override the FOV value clamping in GClass1085.Class1841.method_0.
+    /// Patch to override the FOV value clamping in GClass1053.Class1718.method_0.
     /// This allows FOV values outside the default 50-75 range to be applied.
     /// </summary>
     public class FOVClampPatch : ModulePatch
@@ -14,7 +14,7 @@ namespace CameraRotationMod.Patches
         protected override MethodBase GetTargetMethod()
         {
             // Target the nested class method that clamps FOV values
-            return AccessTools.Method(typeof(GClass1085.Class1841), nameof(GClass1085.Class1841.method_0));
+            return AccessTools.Method(typeof(GClass1053.Class1718), nameof(GClass1053.Class1718.method_0));
         }
 
         [PatchPostfix]

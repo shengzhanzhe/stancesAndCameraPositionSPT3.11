@@ -18,7 +18,7 @@ namespace CameraRotationMod.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(ref NumberSlider ____fov, GClass1085 ___gclass1085_0)
+        private static void PatchPostfix(ref NumberSlider ____fov, GClass1053 ___gclass1053_0)
         {
             if (!Plugin._FOVExpandEnabled.Value)
                 return;
@@ -26,7 +26,7 @@ namespace CameraRotationMod.Patches
             // Re-bind the FOV slider with extended range
             SettingsTab.BindNumberSliderToSetting(
                 ____fov, 
-                ___gclass1085_0.FieldOfView, 
+                ___gclass1053_0.FieldOfView, 
                 Plugin._FOVMinRange.Value, 
                 Plugin._FOVMaxRange.Value
             );
